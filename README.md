@@ -22,7 +22,7 @@ In the terminal, write "liri.js" followed by the following terms:
 
 # Code Example
 
-  This program uses Javascript, axios, dotenv, moment, and node-spotify-api.
+  This program uses Javascript, node, npm, and the following npm packages: axios, dotenv, moment, and node-spotify-api.
 
    URLs for instructions and walkthrough of the program:
 
