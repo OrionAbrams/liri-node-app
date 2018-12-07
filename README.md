@@ -30,8 +30,9 @@ In the terminal, write "liri.js" followed by the following terms:
 
    Google Drive: https://drive.google.com/file/d/1MafsfajuD0sv4NpLVrKjYanNQjxElsvh/view?usp=sharing
 
-  Conditional code that is the crux of the program: 
-  ![conditional code](/images/code.png?raw=true "Main condition")
+Conditional code that is the crux of the program: 
+
+![conditional code](/images/code.png?raw=true "Main condition")
 
 instructions:
 
