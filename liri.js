@@ -7,6 +7,7 @@ var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 var omdbKey = "&apikey=" + keys.omdbKey
 var bandsKey = "app_id=" + keys.bandsInTown
+var doWhatItSaysEntered = false
 
 function logUserInput() {
     var input = process.argv.slice(2).join(" ")
@@ -28,27 +29,30 @@ function main() {
     if (process.argv[2] === "spotify-this-song") {
         getMusic(userInput())
     }
-    if (process.argv[2] === "do-what-it-says")
+    if (process.argv[2] === "do-what-it-says") {
+        doWhatItSaysEntered = true
         fs.readFile("random.txt", "utf8", function (error, data) {
             if (error) {
                 return console.log(error);
             }
-            console.log(data);
             var dataArr = data.split(", ");
-            console.log(dataArr);
             var randomNum = Math.random() //I wasn't sure of instructions here. to make liri choose music/band/movie randomly or 
             // to make the user type "do-what-it-says spotify-this-song" and get a spotified song from random file instead of user input
             if (randomNum > .66) {
+                console.log("Listen to this song!")
                 getMusic(dataArr[1])
             }
             else if (randomNum < .33) {
+                console.log("Watch this movie!")
                 getMovie(dataArr[3])
             }
             else {
+                console.log("Go to a concert by " + dataArr[5] + "!")
                 getBand(dataArr[5])
             }
         });
 
+    }
 }
 
 main();
@@ -58,7 +62,7 @@ function userInput() {
 }
 
 function getMusic(music) {
-    if (userInput() === "") {
+    if (!doWhatItSaysEntered && userInput() === "") {
         spotify.search({ type: 'track', query: "The Sign" }, function (err, data) {
             if (err) {
                 return console.log('Error occurred: ' + err);
@@ -87,7 +91,7 @@ function getMusic(music) {
     }
 }
 function getMovie(movie) {
-    if (userInput() === "") {
+    if (!doWhatItSaysEntered && userInput() === "") {
         axios.get("http://www.omdbapi.com/?" + omdbKey + "&t=" + "Mr. Nobody").then(
             function (response) {
                 console.log("Title: " + response.data.Title)
@@ -118,7 +122,6 @@ function getMovie(movie) {
 function getBand(artist) {
     axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?" + bandsKey).then(
         function (response) {
-            // console.log(response.data)
             for (var i = 0; i < response.data.length; i++) {
                 console.log("Venue Name: " + response.data[i].venue.name);
                 console.log("City: " + response.data[i].venue.city);
@@ -140,4 +143,3 @@ function getBand(artist) {
     );
 
 }
-
